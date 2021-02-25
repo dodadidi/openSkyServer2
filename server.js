@@ -1,9 +1,10 @@
 const express = require("express");
 const logger = require("morgan");
 const cors = require('cors');
+const session = require('express-session');
+const MongoStore = require('connect-mongo').default;
 const logs = require('./logs');
 const fs = require('fs');
-
 const { userRouter } = require("./routers/user.router");
 const { flightRouter } = require("./routers/flight.router");
 const { feedbackRouter } = require("./routers/feedback.router");
@@ -11,23 +12,31 @@ const { weatherRouter } = require("./routers/weather.router");
 const { authRouter  } = require("./routers/auth.router");
 const passportSetup = require("./config/passport-setup");
 const passport = require('passport');
-const cookieSession = require('cookie-session');
 //const keys=require('./config/keys');
 const cookieParser = require("cookie-parser");
 const constants = require('./constants')
 
 const app = express();
-const port = process.env.PORT || 8080 
+const port = process.env.PORT || 8080
 
 app.use(logger('combined', {
   stream: fs.createWriteStream('./logs.txt', {flags: 'a'})
 }));
 app.use(logger('dev'));
-
-// set up session cookies
-app.use(cookieSession({
-    maxAge: 24 * 60 * 60 * 1000,
-    keys: [constants.COOKIE_KEY]
+app.use(session({
+    saveUninitialized: true,
+    resave: true,
+    secret: 'Open_Sky_Server',
+    cookie: {
+        maxAge: 24 * 60 * 60 * 1000,
+        httpOnly: true,
+    },
+    name: "sessionId",
+    store: MongoStore.create({
+        mongoUrl: constants.DB_HOST,
+        clientPromise:  {useNewUrlParser: true, useUnifiedTopology: true},
+        collectionName: 'session'
+    })
 }));
 
 app.use(cookieParser());
@@ -36,19 +45,11 @@ app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
 
-// app.use(cors({
-//     origin: "http://localhost:3000", // allow to server to accept request from different origin
-//     methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
-//     credentials: true //
-// }));
-
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", '*');
-  res.header("Access-Control-Allow-Credentials", true);
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-  res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-  next();
-});
+app.use(cors({
+    origin: "http://localhost:3000", // allow to server to accept request from different origin
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true //
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 app.use(logger("dev"));

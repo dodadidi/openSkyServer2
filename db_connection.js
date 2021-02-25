@@ -1,4 +1,4 @@
-const mongoose = require('mongoose' );
+const mongoose = require('mongoose');
 const consts = require('./constants' );
 const { DB_HOST, DB_USER, DB_PASS } = consts;
 const url = DB_HOST;
@@ -9,7 +9,6 @@ const options = {
  user: DB_USER,
  pass: DB_PASS
 };
-mongoose //reference to mongoose
- .connect(url, options) 
- .then(() => console.log('connected' ))
- .catch(err => console.log(`connection error: ${err}`));
+return mongoose //reference to mongoose
+ .connect(url, options)
+
