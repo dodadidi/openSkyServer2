@@ -25,12 +25,14 @@ app.use(logger('combined', {
 app.use(logger('dev'));
 app.set('trust proxy', true);
 app.use(session({
-    saveUninitialized: true,
-    resave: true,
+  resave: false,
+  saveUninitialized: false,
     secret: 'Open_Sky_Server',
     cookie: {
         maxAge: 24 * 60 * 60 * 1000,
+        sameSite: true,
         httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
     },
     name: "sessionId",
     store: MongoStore.create({
