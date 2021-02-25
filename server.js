@@ -50,7 +50,7 @@ app.use(passport.session());
 
 app.use(cors({
     origin: "http://localhost:3000", // allow to server to accept request from different origin
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
+    // methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
     credentials: true //
 }));
 app.use(express.json());
