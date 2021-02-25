@@ -46,7 +46,7 @@ app.use(cookieParser());
 
 // initialize passport
 
-
+app.set('trust proxy', true);
 // Permissions
 app.use(cors({ credentials: true, origin: "http://localhost:3000",methods:["POST", "PUT", "GET", "DELETE", "OPTIONS"],preflightContinue:true }));
 app.use((req, res, next) => {
