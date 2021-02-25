@@ -27,7 +27,7 @@ app.set('trust proxy', true);
 app.use(session({
   resave: false,
   saveUninitialized: false,
-    secret: 'Open_Sky_Server',
+    secret: 'thenetninjaisawesomeiguess',
     cookie: {
         maxAge: 24 * 60 * 60 * 1000,
         sameSite: true,
@@ -50,7 +50,7 @@ app.use(passport.session());
 
 app.use(cors({
     origin: "http://localhost:3000", // allow to server to accept request from different origin
-    // methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
     credentials: true //
 }));
 app.use(express.json());
