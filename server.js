@@ -1,8 +1,7 @@
 const express = require("express");
 const logger = require("morgan");
 const cors = require('cors');
-const session = require('express-session');
-const MongoStore = require('connect-mongo').default;
+const cookieSession = require('cookie-session');
 const logs = require('./logs');
 const fs = require('fs');
 const { userRouter } = require("./routers/user.router");
@@ -24,23 +23,6 @@ app.use(logger('combined', {
 }));
 app.use(logger('dev'));
 app.set('trust proxy', true);
-app.use(session({
-  resave: false,
-  saveUninitialized: false,
-    secret: 'thenetninjaisawesomeiguess',
-    cookie: {
-        maxAge: 24 * 60 * 60 * 1000,
-        sameSite: true,
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-    },
-    name: "sessionId",
-    store: MongoStore.create({
-        mongoUrl: constants.DB_HOST,
-        clientPromise:  {useNewUrlParser: true, useUnifiedTopology: true},
-        collectionName: 'session'
-    })
-}));
 
 app.use(cookieParser());
 
@@ -56,6 +38,13 @@ app.use((req, res, next) => {
     res.header('Access-Control-Allow-Credentials', true);
     next();
 });
+app.use(cookieSession({
+  name: 'david',
+  maxAge: 24 * 60 * 60 * 1000,
+  keys: ["thenetninjaisawesomeiguess"],
+  sameSite: "none"
+}));
+
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.json());
