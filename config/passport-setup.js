@@ -5,13 +5,14 @@ const {CLIENT_ID, CLIENT_SECRET} = require('../constants');
 const User = require('../models/user');
 
 passport.serializeUser((user, done) => {
-    done(null, user._id);
+    return done(null, user._id);
 });
 
 passport.deserializeUser((_id, done) => {
     User.findById(_id).then((user) => {
-        done(null, user);
-    });
+        return done(null, user);
+    })
+    .catch(err => done(err, null));
 });
 
 passport.use(
