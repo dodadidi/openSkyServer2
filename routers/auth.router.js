@@ -1,7 +1,7 @@
 const passport = require('passport')
 const { Router } = require('express');
 const authRouter = new Router();
-const CLIENT_HOME_PAGE_URL = process.env.NODE_ENV === "production" ? "https://603812aef999b55aefc5f559--opensky2.netlify.app/" : "http://localhost:3000";
+const CLIENT_HOME_PAGE_URL = process.env.NODE_ENV === "production" ? "https://603816144f9c2759c58db776--opensky2.netlify.app/" : "http://localhost:3000";
 
 // when login is successful, retrieve user info
 authRouter.get("/login/success", (req, res) => {
