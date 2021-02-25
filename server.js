@@ -23,7 +23,7 @@ app.use(logger('combined', {
 }));
 app.use(logger('dev'));
 app.set('trust proxy', true);
-
+app.use(express.json());
 app.use(cookieParser());
 
 // initialize passport
@@ -47,7 +47,7 @@ app.use(cookieSession({
 
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(express.json());
+
 app.use(express.urlencoded({ extended: true }))
 app.use(logger("dev"));
 
