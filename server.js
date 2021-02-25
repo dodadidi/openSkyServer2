@@ -22,8 +22,8 @@ const port = process.env.PORT || 8080
 app.use(logger('combined', {
   stream: fs.createWriteStream('./logs.txt', {flags: 'a'})
 }));
-app.set("trust proxy", 1);
 app.use(logger('dev'));
+app.set('trust proxy', true);
 app.use(session({
     saveUninitialized: true,
     resave: true,
