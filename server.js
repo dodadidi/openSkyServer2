@@ -39,7 +39,7 @@ app.use((req, res, next) => {
     next();
 });
 app.use(cookieSession({
-  name: 'david',
+  name: 'adi',
   maxAge: 24 * 60 * 60 * 1000,
   keys: ["thenetninjaisawesomeiguess"],
   sameSite: "none"
