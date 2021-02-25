@@ -30,7 +30,8 @@ app.use(cookieParser());
 
 app.set('trust proxy', true);
 // Permissions
-app.use(cors({ credentials: true, origin: "https://opensky2.netlify.app/#/",methods:["POST", "PUT", "GET", "DELETE", "OPTIONS"],preflightContinue:true }));
+//"https://opensky2.netlify.app/#/"
+app.use(cors({ credentials: true, origin: "http://localhost:3000",methods:["POST", "PUT", "GET", "DELETE", "OPTIONS"],preflightContinue:true }));
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin: *')
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
