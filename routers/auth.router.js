@@ -6,13 +6,14 @@ const CLIENT_HOME_PAGE_URL = "http://localhost:3000";
 // when login is successful, retrieve user info
 authRouter.get("/login/success", (req, res) => {
     if (req.user) {
-        res.json({
+        return res.json({
             success: true,
             message: "user has successfully authenticated",
             user: req.user,
             cookies: req.cookies
         });
     }
+    return res.json({message: "user is not logged in"})
 });
 
 // when login failed, send failed msg
